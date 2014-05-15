@@ -1,0 +1,9 @@
+﻿<ul class="side-nav">
+    @Each.Drives
+    <li><a href="#" onclick="$('#currentPath').val('@Current.Item1'); refreshPath();return false;">
+        @Current.Item2 </a></li>
+    @EndEach @Each.NetworkHosts
+    <li><a href="#" onclick="$('#currentPath').val('@Current.Item1'); refreshPath();return false;">
+        @Current.Item2 </a></li>
+    @EndEach
+</ul>

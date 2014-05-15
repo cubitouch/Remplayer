@@ -1,0 +1,9 @@
+﻿<ul class="side-nav">
+    @Each.Listing @If.Item3
+    <li class="active"><a href="#" onclick="$('#currentPath').val('@Current.Item1'); refreshPath();return false;">
+        @Current.Item2 </a></li>
+    @EndIf @IfNot.Item3
+    <li><a href="#" onclick="$('#currentPath').val('@Current.Item1'); refreshPath();return false;">
+        @Current.Item2 </a></li>
+    @EndIf @EndEach
+</ul>

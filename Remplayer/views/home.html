@@ -1,0 +1,100 @@
+﻿<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RemPlayer</title>
+    <link rel="stylesheet" href="/foundation/css/foundation.css" />
+    <link rel="stylesheet" href="/foundation/foundation-icons/foundation-icons.css" />
+    <script src="/foundation/js/modernizr.js"></script>
+</head>
+<body>
+    <div class="row">
+        <div class="large-12 columns">
+            <h1>
+                RemPlayer
+            </h1>
+        </div>
+    </div>
+    <input id="currentPath" type="hidden" value="" />
+    <div class="row">
+        <div class="large-12 columns">
+            <ul class="button-group">
+                <li>
+                    <button class="button tiny" onclick="backPath();return false;">
+                        <i class="fi-home"></i>
+                    </button>
+                </li>
+                <li>
+                    <button class="button tiny" onclick="$.get('/cmd/stop',function(data){});return false;">
+                        <i class="fi-stop"></i>
+                    </button>
+                </li>
+                <li>
+                    <button class="button tiny" onclick="$.get('/cmd/pause',function(data){});">
+                        <i class="fi-pause"></i>
+                    </button>
+                </li>
+                <li>
+                    <button class="button tiny" onclick="$.get('/cmd/lecture',function(data){});">
+                        <i class="fi-play"></i>
+                    </button>
+                </li>
+                <li>
+                    <button class="button tiny" onclick="$.get('/cmd/volumne_down',function(data){});">
+                        <i class="fi-volume-none"></i>
+                    </button>
+                </li>
+                <li>
+                    <button class="button tiny" onclick="$.get('/cmd/volumne_up',function(data){});">
+                        <i class="fi-volume"></i>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="large-12 columns" id="content">
+        </div>
+    </div>
+    <script src="/foundation/js/jquery.js"></script>
+    <script src="/foundation/js/foundation.min.js"></script>
+    <script>
+        $(document).foundation();
+        $(function () {
+            initPath();
+        });
+
+        function initPath() {
+            $.get('/base', function (data) {
+                $("#content").html(data);
+            });
+        }
+
+        function refreshPath() {
+            var path = $('#currentPath').val();
+
+            if (path.length > 0) {
+                $.get('/path/' + path, function (data) {
+                    $("#content").html(data);
+                });
+            } else {
+                initPath();
+            }
+        }
+
+        function backPath() {
+            var path = $('#currentPath').val();
+            var tab = decodeURIComponent(path).replace('//', '/').split("/");
+
+            tab.splice((tab.length - 1), 1);
+            if ($('#content .side-nav .active').length > 0) {
+                tab.splice((tab.length - 1), 1);
+            }
+            $('#currentPath').val(tab.join("/"));
+
+            refreshPath();
+        }
+    </script>
+</body>
+</html>
